@@ -59,6 +59,7 @@ type (
 		numOfTestsPerGroup             int
 		OutputFilename                 string
 		TestExecutionDate              string
+		ReportNote                     string
 	}
 
 	testGroupData struct {
@@ -74,6 +75,7 @@ type (
 		listFlag   string
 		outputFlag string
 		verbose    bool
+		noteFlag   string
 	}
 
 	goListJSONModule struct {
@@ -125,6 +127,7 @@ func initRootCommand() (*cobra.Command, *templateData, *cmdFlags) {
 			}
 			tmplData.numOfTestsPerGroup = flags.groupSize
 			tmplData.ReportTitle = flags.titleFlag
+			tmplData.ReportNote = flags.noteFlag
 			tmplData.OutputFilename = flags.outputFlag
 			if err := checkIfStdinIsPiped(); err != nil {
 				return err
@@ -209,6 +212,11 @@ func initRootCommand() (*cobra.Command, *templateData, *cmdFlags) {
 		"v",
 		false,
 		"while processing, show the complete output from go test ")
+	rootCmd.PersistentFlags().StringVarP(&flags.noteFlag,
+		"note",
+		"n",
+		"go-test-report",
+		"the note text shown in the test report below title")
 
 	return rootCmd, tmplData, flags
 }
