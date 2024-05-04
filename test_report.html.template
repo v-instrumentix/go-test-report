@@ -21,6 +21,16 @@
             text-shadow: 0 -1px 1px white;
         }
 
+        div.pageHeader span.projectNote {
+            font-family: serif;
+            font-size: 1.5em;
+            padding-left: 56px;
+            padding-top: 80px;
+            display: block;
+            color: #a5a5a5;
+            text-shadow: 0 -1px 1px white;
+        }
+
         div.pageHeader div.testStats {
             position: absolute;
             top: 7px;
@@ -235,6 +245,7 @@
 <body>
 <div class="pageHeader">
     <span class="projectTitle">{{.ReportTitle}}</span>
+{{ if .ReportNote }}<span class="projectNote">{{ .ReportNote }}</span>{{ end }}
     <div class="testStats">
         <span class="total"><span class="indicator">&boxbox;</span> Total: <strong>{{.NumOfTests}}</strong>Duration: <strong>{{.TestDuration}}</strong>
         </span><span class="passed"><span class="indicator">&check;</span> Passed: <strong>{{.NumOfTestPassed}}</strong>
