@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"context"
-	"encoding/hex"
+	_ "embed"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -397,19 +397,20 @@ func (t byName) Less(i, j int) bool {
 	return t[i].name < t[j].name
 }
 
+// read the html template from the generated embedded asset go file
+//
+//go:embed test_report.html.template
+var testReportHTMLTemplateStr string
+
+// read Javascript code from the generated embedded asset go file
+//
+//go:embed test_report.js
+var testReportJsCodeStr string
+
 func generateReport(tmplData *templateData, allTests map[string]*testStatus, testFileDetailByPackage testFileDetailsByPackage, elapsedTestTime time.Duration, reportFileWriter *bufio.Writer) error {
-	// read the html template from the generated embedded asset go file
+	var err error
 	tpl := template.New("test_report.html.template")
-	testReportHTMLTemplateStr, err := hex.DecodeString(testReportHTMLTemplate)
-	if err != nil {
-		return err
-	}
 	tpl, err = tpl.Parse(string(testReportHTMLTemplateStr))
-	if err != nil {
-		return err
-	}
-	// read Javascript code from the generated embedded asset go file
-	testReportJsCodeStr, err := hex.DecodeString(testReportJsCode)
 	if err != nil {
 		return err
 	}
